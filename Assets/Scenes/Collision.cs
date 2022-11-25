@@ -10,14 +10,15 @@ public class Collision : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.tag == "Package" && !hasPackage) {
+        if (other.gameObject.tag == "package" && !hasPackage) {
             Debug.Log("Ran over a package");
             hasPackage = true;
-            Destroy(other.gameObject, 0.5f);
+            Destroy(other.gameObject, 0.1f);
         }
         else if (other.gameObject.tag == "delivery" && hasPackage) {
             Debug.Log("Delivered package");
             hasPackage = false;
+            Destroy(other.gameObject, 0.1f);
 
         }
     }
