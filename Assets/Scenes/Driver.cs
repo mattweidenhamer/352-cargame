@@ -4,33 +4,44 @@ using UnityEngine;
 
 public class Driver : MonoBehaviour
 {
-    [SerializeField] float steerSpeed = 20f;
-    [SerializeField] float moveSpeed = 10f;
+    [SerializeField] float defaultSteerSpeed = 20f;
+    float steerSpeed;
+    [SerializeField] float defaultMoveSpeed = 10f;
+    float moveSpeed;
 
-    [SerializeField] Color32 hasPackageColor = new Color32(1, 1, 1, 1);
-    [SerializeField] Color32 noPackageColor = new Color32(1, 1, 1, 1);
+    [SerializeField] float boostModifier = 2f;
+    [SerializeField] float slugModifier = .5f;
 
-    Sprite spriteDefault;
+    bool hasSlug = false;
+    bool hasBoost = false;
 
-    SpriteRenderer spriteRenderer;
-
-    bool hasPackage;
-
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteDefault = spriteRenderer.sprite;
+    private void Start() {
+        moveSpeed = defaultMoveSpeed;
+        steerSpeed = defaultSteerSpeed;
     }
-
-    // Update is called once per frame
     void Update()
     {
         float steerAmount = Input.GetAxis("Horizontal") * Time.deltaTime;
         float forwardBackwards = Input.GetAxis("Vertical") * Time.deltaTime;
         transform.Rotate(0, 0, -steerAmount * steerSpeed);
         transform.Translate(0, forwardBackwards * moveSpeed, 0);
+
+    }
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.tag == "boost"){
+            hasBoost = true;
+            moveSpeed = defaultMoveSpeed * boostModifier;
+        }
+        else if (other.gameObject.tag == "obstacle"){
+            hasSlug = true;
+            hasBoost = false;
+            moveSpeed = defaultMoveSpeed * slugModifier;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D other) {
+        if (other.gameObject.tag == "obstacle" && hasSlug){
+            hasSlug = false;
+            moveSpeed = defaultMoveSpeed;
+        }
     }
 }
