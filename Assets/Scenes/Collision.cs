@@ -8,6 +8,7 @@ public class Collision : MonoBehaviour
 
     [SerializeField] Color hasPackageColor = new Color(1, 1, 1, 1);
     [SerializeField] Color noPackageColor = new Color(1, 1, 1, 1);
+    [SerializeField] Timer timer;
     public ScoreTracker scoreBoard;
 
     Sprite spriteDefault;
@@ -26,6 +27,7 @@ public class Collision : MonoBehaviour
             Destroy(other.gameObject, 0.1f);
             spriteRenderer.color = hasPackageColor;
             scoreBoard.gainScore(10, "Package Pickup +10");
+            timer.resetTimer();
         }
         else if (other.gameObject.tag == "delivery" && hasPackage) {
             Debug.Log("Delivered package");
@@ -33,6 +35,7 @@ public class Collision : MonoBehaviour
             Destroy(other.gameObject, 0.1f);
             spriteRenderer.color = noPackageColor;
             scoreBoard.gainScore(30, "Package Delivery +30");
+            timer.resetTimer();
 
         }
 
