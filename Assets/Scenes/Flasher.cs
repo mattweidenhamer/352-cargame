@@ -17,11 +17,11 @@ public class Flasher : MonoBehaviour
     {
         if (isFirstcolor){
             isFirstcolor = false;
-            thisMessage.color = secondColor;
+            thisMessage.color = Color.white;
         }
         else {
             isFirstcolor = true;
-            thisMessage.faceColor = firstColor;
+            thisMessage.color = Color.red;
         }
     }
 }

@@ -41,7 +41,7 @@ public class Timer : MonoBehaviour
         }
     }
     public void resetTimer(){
-        postTimerString.text = "Last delivery time:" + timer.ToString("00.##");
+        postTimerString.text = "Last delivery time: " + timer.ToString("00.##");
         timer = 0;
         flashingTimer = true;
         flashCount = 0;
